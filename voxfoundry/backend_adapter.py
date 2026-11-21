@@ -120,20 +120,10 @@ class XTTSAdapter(BackendAdapter):
             raise RuntimeError(
                 f"Cannot create cache directory {self.cache_dir!s}: {exc}"
             ) from exc
-    audio post-processing as the legacy script so that behaviour is
-    deterministic and comparable.
-    """
 
     name = "XTTS-v2"
     supported_languages = ["en", "hi"]
     sample_rate = 24000  # default value, will be overridden by the model
-
-    def __init__(self) -> None:
-        self.tts: TTS | None = None
-        self.reference_audio: Path | None = None
-        self._warned_fallback = False
-        self.cache_dir = Path.cwd() / ".voxfoundry_cache"
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def load(self, model_path: Path | str) -> None:
         """Load the XTTS-v2 model.
