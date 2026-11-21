@@ -1,34 +1,63 @@
-"""VoxFoundry package
+"""VoxFoundry: a modular framework for voice-cloning back-ends.
 
-This package provides a modular framework for voice‑cloning, audio‑mastering and
-text‑to‑speech back‑end adapters.  The legacy scripts in the repository are
-wrappers around this API.
+Importing the package is lightweight: ``torch`` and ``coqui-tts`` are imported only
+when an :class:`XTTSAdapter` loads its model.
 """
 
-"""Public entry‑point for the :mod:`voxfoundry` package.
-
-The original ``__init__`` attempted to expose a non‑existent ``TextProcessor``
-class which caused an :class:`ImportError` as soon as the package was
-imported.  The module now re‑exports the useful symbols from the
-sub‑modules so that consumers can simply ``import voxfoundry``.
-"""
-
-from .text_processor import (
-    parse_script,
-    make_chunks,
-    pause_after,
-    silence,
+from .audio import AudioResult, AudioStats, analyze_audio, validate_audio, validate_reference
+from .backend_adapter import AdapterState, BackendAdapter, MockXTTSAdapter, XTTSAdapter, XTTSSettings
+from .errors import (
+    AdapterStateError,
+    AudioValidationError,
+    DeviceUnavailableError,
+    InferenceError,
+    ModelDependencyError,
+    ModelLoadError,
+    ReferenceAudioError,
+    ReferenceAudioNotFoundError,
+    TextValidationError,
+    UnsupportedLanguageError,
+    VoxFoundryError,
 )
-from .backend_adapter import BackendAdapter, XTTSAdapter, MockXTTSAdapter
-from .cli import main
+from .text_processor import Segment, build_segments, make_chunks, parse_script, parse_script_text, pause_after, silence
 
 __all__ = [
     "parse_script",
+    "parse_script_text",
     "make_chunks",
     "pause_after",
     "silence",
+    "build_segments",
+    "Segment",
+    "AudioResult",
+    "AudioStats",
+    "analyze_audio",
+    "validate_audio",
+    "validate_reference",
+    "AdapterState",
     "BackendAdapter",
     "XTTSAdapter",
+    "XTTSSettings",
     "MockXTTSAdapter",
     "main",
+    "VoxFoundryError",
+    "ModelDependencyError",
+    "ModelLoadError",
+    "DeviceUnavailableError",
+    "ReferenceAudioError",
+    "ReferenceAudioNotFoundError",
+    "UnsupportedLanguageError",
+    "TextValidationError",
+    "AdapterStateError",
+    "InferenceError",
+    "AudioValidationError",
 ]
+
+
+def __getattr__(name: str):
+    # Lazy so that ``python -m voxfoundry.cli`` does not import the CLI module twice.
+    if name == "main":
+        from .cli import main
+
+        return main
+    raise AttributeError(f"module 'voxfoundry' has no attribute {name!r}")
