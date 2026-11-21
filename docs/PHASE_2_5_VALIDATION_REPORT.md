@@ -153,9 +153,13 @@ Not done: an audible A/B of the same script through `clone_voice.py` and the Vox
 | File | Speaker identity | Pronunciation | Pacing / flow | Pauses / breathing | Artifacts |
 |---|---|---|---|---|---|
 | `t2_adapter_en_mps.wav` | "close but not perfect" (user) | not reported | not reported | not reported | not reported |
+| `t1_direct_legacyparams_en_mps.wav` | "close" (user) | not reported | not reported | not reported | not reported |
 | `t4_hinglish_as_en_mps.wav` | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | `t4_hindi_hi_mps.wav` | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
 | `t6_cli_e2e_mps.wav` | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED | NOT TESTED |
+
+Note: `t1_direct_legacyparams_en_mps.wav` and `t2_adapter_en_mps.wav` contain **identical samples** (58 896 samples, max difference 0.0; the files differ only by 2 header bytes). Any perceived difference between them is a listening-condition effect, not an audio difference. Future comparisons should be blind A/B.
+Pending: `t1_direct_plain_en_mps.wav` (Coqui default parameters) vs `t1_direct_legacyparams_en_mps.wav` (legacy parameters), which do differ, to judge whether the legacy parameters improve similarity.
 
 Speaker-similarity options for a later phase (none applied, per Phase 2.5 rule 11): a clean
 15–30 s reference (the current one is 42 s, and XTTS uses only the first 30 s), several
