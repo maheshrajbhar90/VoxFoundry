@@ -1,0 +1,50 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+chatterbox_env/
+.venv-multiengine/
+.venv-xtts/
+# The project root is itself a legacy venv
+/bin/
+/lib/
+/include/
+/share/
+/pyvenv.cfg
+
+# Generated audio / caches
+/output/
+.voxfoundry_cache/
+.pytest_cache/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Model files
+*.pth
+*.pt
+*.onnx
+*.safetensors
+*.ckpt
+
+# Audio and video outputs
+*.wav
+*.m4a
+*.mp3
+*.mp4
+
+# Environment variables
+.env
+.env.*
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+*.m4a
+*.mp3
+*.wav
+
+# macOS
+.DS_Store
