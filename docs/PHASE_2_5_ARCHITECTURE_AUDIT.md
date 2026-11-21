@@ -208,7 +208,7 @@ Each change will ship with a test. None is a re-architecture.
 | S5 | Typed errors in a new `voxfoundry/errors.py` (`ModelDependencyError`, `ModelLoadError`, `ReferenceAudioError`, `UnsupportedLanguageError`, `InferenceError`, `AudioValidationError`). | new + `backend_adapter.py`, `cli.py` | A8, C5 |
 | S6 | Reference validation ported from legacy (no modification of the file). | `backend_adapter.py` | A9 |
 | S7 | Language validation against the **loaded model's** `config.languages`. | `backend_adapter.py` | A10 |
-| S8 | **Deferred.** Coqui only caches conditioning via an on-disk `voice_dir`; `TTS.tts()` also splits sentences and pads 10 000 samples of silence per sentence, so bypassing it with `Xtts.inference` would change output. Keep the legacy path; measure the conditioning cost in Phase H and decide afterwards. | — | A11 |
+| S8 | **Deferred (measured: 0.11 s per call, ~1–4 % of generation time).** Coqui only caches conditioning via an on-disk `voice_dir`; `TTS.tts()` also splits sentences and pads 10 000 samples of silence per sentence, so bypassing it with `Xtts.inference` would change output. Keep the legacy path; measure the conditioning cost in Phase H and decide afterwards. | — | A11 |
 | S9 | Lazy import of `TTS`/`torch` inside `load()`; `ModelDependencyError` if missing. | `backend_adapter.py` | A12 |
 | S10 | Lifecycle state (`UNINITIALIZED → LOADED/READY → GENERATING → READY → UNLOADED`); `unload()` releases references, runs `gc.collect()` and the correct device cache clear; idempotent. | `backend_adapter.py` | A7, A14 |
 | S11 | `AudioResult` dataclass returned by a new `synthesize_result()`; existing `synthesize()` keeps returning `(audio, sr)` for compatibility. | `backend_adapter.py` | A16 |
