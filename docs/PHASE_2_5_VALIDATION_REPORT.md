@@ -161,6 +161,20 @@ Not done: an audible A/B of the same script through `clone_voice.py` and the Vox
 Note: `t1_direct_legacyparams_en_mps.wav` and `t2_adapter_en_mps.wav` contain **identical samples** (58 896 samples, max difference 0.0; the files differ only by 2 header bytes). Any perceived difference between them is a listening-condition effect, not an audio difference. Future comparisons should be blind A/B.
 Pending: `t1_direct_plain_en_mps.wav` (Coqui default parameters) vs `t1_direct_legacyparams_en_mps.wav` (legacy parameters), which do differ, to judge whether the legacy parameters improve similarity.
 
+### Reference selection (A/B, 2026-11-21)
+
+Four references were each used to synthesise the same two sentences (`output/phase25/ref_candidates/ab_*_s1.wav`, `ab_*_s2.wav`):
+the original `references/my_voice.wav`, A (raw, from 115 s), B (mastered, from 115 s) and C (mastered, from 79 s). A, B and C are 25 s clips at 22.05 kHz mono.
+
+**Chosen: C** (`ab_C_mastered_79s_s1.wav`, `ab_C_mastered_79s_s2.wav` judged good by the user).
+The reference is now stored at `references/final_reference.wav` (byte-identical to `ref_C_mastered_79s.wav`,
+SHA-1 `ed404adab9d71e3cce6559655782e428bd18815c`). Audio files are git-ignored, so this file exists only locally; back it up.
+
+```
+python -m voxfoundry generate --script <script.txt> --output <out.wav> \
+  --reference-audio references/final_reference.wav
+```
+
 Speaker-similarity options for a later phase (none applied, per Phase 2.5 rule 11): a clean
 15–30 s reference (the current one is 42 s, and XTTS uses only the first 30 s), several
 reference clips, and temperature/speed tuning.
