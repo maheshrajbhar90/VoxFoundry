@@ -5,8 +5,8 @@
 **Scope:** `voxfoundry/`, `tests/`, `clone_voice.py` (legacy XTTS), with reference reading of
 `clone_voice_with_chatterbox.py`, `clone_voice_with_voxcpm2.py`, `voiceover_master.py`, `run.sh`.
 
-Every claim below comes from reading the code. Where a behaviour is *predicted* rather than
-*observed*, it is marked **(predicted)**.
+Every claim below comes from reading the code or running it. Test outcomes in §3.4 are observed
+results from the baseline run.
 
 ---
 
@@ -19,9 +19,11 @@ Every claim below comes from reading the code. Where a behaviour is *predicted* 
 | `.venv-multiengine` (renamed from `voiceclone/`) | Present. Python **3.11.18**, coqui-tts 0.28.0, torch 2.6.0, transformers 5.2.0, numpy 1.26.4, plus Chatterbox and VoxCPM2. No `pip`, no `pytest`. |
 | Project root | Is itself a Python 3.11 venv (`bin/`, `lib/`, `include/`, `pyvenv.cfg`, 5.1 GB), originally created at `AutoGraphEngine/voiceclone`. |
 | Git | Repository has **no commits**; all files untracked. There is no baseline to diff against. |
-| Baseline test run | **NOT RUN** — no environment with `pytest` exists. |
+| Baseline test run | **8 passed, 5 failed** (run after `.venv-xtts` was recreated; commit `9037c57`). See §3.4. |
 
-Phase 2.5 requires `.venv-xtts` on Python 3.12. It must be recreated before Stages 2–5.
+`.venv-xtts` was recreated (Python 3.12.14) with approval. `six==1.17.0` had to be installed
+explicitly: coqui-tts 0.28.0 imports `six` (`TTS/tts/utils/text/punctuation.py`) but does not
+declare it as a dependency.
 
 ---
 
@@ -123,12 +125,14 @@ decision (§6, Q3).
 
 | Test | Problem | Expected outcome |
 |---|---|---|
-| `test_cache_dir_creation` | `tmp_cwd` is a plain generator, used with `with` (no `@contextmanager`). | **Fails (predicted)** — `TypeError`, generator is not a context manager. |
-| `test_load_and_generate` | Fake `load` sets `reference_audio = Path("voice.wav")`, which does not exist; `_cache_path` calls `.stat()` on it. | **Fails (predicted)** — `FileNotFoundError`. |
-| `test_unload_and_reuse` | Same `.stat()` problem. | **Fails (predicted)**. |
-| `test_invalid_reference_path`, `test_invalid_generate_without_load` | OK. | Pass (predicted). |
+| `test_cache_dir_creation` | `tmp_cwd` is a plain generator, used with `with` (no `@contextmanager`). | **Fails (observed):** `TypeError: 'generator' object does not support the context manager protocol`. |
+| `test_load_and_generate` | Fake `load` sets `reference_audio = Path("voice.wav")`, which does not exist; `_cache_path` calls `.stat()` on it. | **Fails (observed):** `FileNotFoundError: voice.wav`. |
+| `test_unload_and_reuse` | Same `.stat()` problem. | **Fails (observed):** `FileNotFoundError: voice.wav`. |
+| `test_invalid_reference_path`, `test_invalid_generate_without_load` | OK. | Pass (observed). |
 | All `XTTSAdapter()` tests | Constructor creates `.voxfoundry_cache/` in the **repo** working directory. | Side effect on the repo. |
-| `test_cli_*` | Use `MockXTTSAdapter` via monkeypatch (labelled in the docstring). Reference is a 1 s sine wave — would fail the legacy ≥5 s check once validation is added. | Pass today (predicted); need updating with A9. |
+| `test_cli_*` | Use `MockXTTSAdapter` via monkeypatch (labelled in the docstring). Reference is a 1 s sine wave — would fail the legacy ≥5 s check once validation is added. | Pass (observed); need updating with A9. |
+| `test_parse_script_basic` | Puts `[EN] Hello world.` on one line; the parser only recognises a marker alone on its line (`re.fullmatch`), so both lines are parsed as `en` text. | **Fails (observed):** `assert 'en' == 'hi'`. |
+| `test_parse_script_paragraph_break` | Expects `para_break` on the line *after* the blank line; the parser (legacy and package) sets it on the line *before*. | **Fails (observed):** `assert True is False`. |
 | General | No pytest config, no `unit` / `integration` / `real_model` markers, no real-model tests. Duplicate `import numpy as np` in `test_cli.py`. | — |
 
 ### 3.5 Repository / configuration
@@ -204,7 +208,7 @@ Each change will ship with a test. None is a re-architecture.
 | S5 | Typed errors in a new `voxfoundry/errors.py` (`ModelDependencyError`, `ModelLoadError`, `ReferenceAudioError`, `UnsupportedLanguageError`, `InferenceError`, `AudioValidationError`). | new + `backend_adapter.py`, `cli.py` | A8, C5 |
 | S6 | Reference validation ported from legacy (no modification of the file). | `backend_adapter.py` | A9 |
 | S7 | Language validation against the **loaded model's** `config.languages`. | `backend_adapter.py` | A10 |
-| S8 | Compute speaker conditioning once per `load()` (`get_conditioning_latents`) and reuse for every chunk. | `backend_adapter.py` | A11 |
+| S8 | **Deferred.** Coqui only caches conditioning via an on-disk `voice_dir`; `TTS.tts()` also splits sentences and pads 10 000 samples of silence per sentence, so bypassing it with `Xtts.inference` would change output. Keep the legacy path; measure the conditioning cost in Phase H and decide afterwards. | — | A11 |
 | S9 | Lazy import of `TTS`/`torch` inside `load()`; `ModelDependencyError` if missing. | `backend_adapter.py` | A12 |
 | S10 | Lifecycle state (`UNINITIALIZED → LOADED/READY → GENERATING → READY → UNLOADED`); `unload()` releases references, runs `gc.collect()` and the correct device cache clear; idempotent. | `backend_adapter.py` | A7, A14 |
 | S11 | `AudioResult` dataclass returned by a new `synthesize_result()`; existing `synthesize()` keeps returning `(audio, sr)` for compatibility. | `backend_adapter.py` | A16 |
