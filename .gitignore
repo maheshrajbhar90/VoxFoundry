@@ -1,3 +1,78 @@
+# ---------------------------------------------------------------
+# PERSONAL DATA: never commit voice recordings or cloned audio
+# ---------------------------------------------------------------
+
+# Personal reference recordings (voice samples used for cloning)
+/references/
+/reference/
+/input.*
+/mastered.*
+/final_voiceover.*
+
+# Audio formats (any case: .wav, .WAV, ...)
+*.[wW][aA][vV]
+*.[mM][pP]3
+*.[mM]4[aA]
+*.[mM]4[bB]
+*.[fF][lL][aA][cC]
+*.[aA][aA][cC]
+*.[oO][gG][gG]
+*.[oO][gG][aA]
+*.[oO][pP][uU][sS]
+*.[wW][mM][aA]
+*.[aA][iI][fF]
+*.[aA][iI][fF][fF]
+*.[aA][lL][aA][cC]
+*.[aA][mM][rR]
+*.[aA][uU]
+*.[cC][aA][fF]
+*.[wW][eE][bB][aA]
+*.[pP][cC][mM]
+*.[rR][aA][wW]
+*.[mM][iI][dD]
+*.[mM][iI][dD][iI]
+
+# Video formats (screen/voice recordings)
+*.[mM][pP]4
+*.[mM][oO][vV]
+*.[mM][kK][vV]
+*.[aA][vV][iI]
+*.[wW][eE][bB][mM]
+
+# Raw audio arrays, speaker embeddings and latents
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# Model files
+*.pth
+*.pt
+*.onnx
+*.safetensors
+*.ckpt
+*.bin
+
+# Generated audio / caches
+/output/
+.voxfoundry_cache/
+.pytest_cache/
+
+# Logs and crash dumps (may contain local paths)
+*.log
+*.losource
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
 # Python virtual environments
 venv/
 .venv/
@@ -12,39 +87,9 @@ chatterbox_env/
 /share/
 /pyvenv.cfg
 
-# Generated audio / caches
-/output/
-.voxfoundry_cache/
-.pytest_cache/
-
 # Python cache
 __pycache__/
 *.py[cod]
-
-# Model files
-*.pth
-*.pt
-*.onnx
-*.safetensors
-*.ckpt
-
-# Audio and video outputs
-*.wav
-*.m4a
-*.mp3
-*.mp4
-
-# Environment variables
-.env
-.env.*
-
-# Local databases
-*.db
-*.sqlite
-*.sqlite3
-*.m4a
-*.mp3
-*.wav
 
 # macOS
 .DS_Store
