@@ -1,4 +1,4 @@
-"""Command-line interface for VoxFoundry.
+"""Command-line interface for CloneMyVoice.
 
 Sub-commands:
 
@@ -43,7 +43,7 @@ from .errors import (
 )
 from .text_processor import MAX_CHARS, build_segments, parse_script, parse_script_text, silence
 
-logger = logging.getLogger("voxfoundry")
+logger = logging.getLogger("clonemyvoice")
 
 EXIT_OK = 0
 EXIT_INTERNAL = 1
@@ -56,7 +56,7 @@ ENGINES = ("xtts", "mock")
 
 
 def _build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="voxfoundry", description="VoxFoundry voice-generation CLI")
+    parser = argparse.ArgumentParser(prog="clonemyvoice", description="CloneMyVoice voice-generation CLI")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     gen = sub.add_parser("generate", help="Generate speech from a script file or text")
@@ -87,7 +87,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Entry point for the ``voxfoundry`` console script."""
+    """Entry point for the ``clonemyvoice`` console script."""
     args = _build_parser().parse_args(argv)
     if args.cmd == "generate":
         return _cmd_generate(args)

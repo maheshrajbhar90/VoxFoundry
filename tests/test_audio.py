@@ -1,4 +1,4 @@
-"""Unit tests for :mod:`voxfoundry.audio` (validation, analysis, reference checks)."""
+"""Unit tests for :mod:`clonemyvoice.audio` (validation, analysis, reference checks)."""
 
 import os
 import sys
@@ -8,14 +8,14 @@ import pytest
 import soundfile as sf
 
 from conftest import speech_like
-from voxfoundry.audio import (
+from clonemyvoice.audio import (
     AudioResult,
     analyze_audio,
     legacy_clean_clip,
     validate_audio,
     validate_reference,
 )
-from voxfoundry.errors import AudioValidationError, ReferenceAudioError, ReferenceAudioNotFoundError
+from clonemyvoice.errors import AudioValidationError, ReferenceAudioError, ReferenceAudioNotFoundError
 
 pytestmark = pytest.mark.unit
 SR = 24000

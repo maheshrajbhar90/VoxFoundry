@@ -42,7 +42,7 @@ does not make XTTS-v2 output usable commercially.
 * No sublicensing or transfer. Patent licence ends if you assert a patent claim against the model.
 * 30-day cure period after the first written notice of violation.
 
-**Implication for VoxFoundry:** any voiceover published on a monetised channel, or produced for a
+**Implication for CloneMyVoice:** any voiceover published on a monetised channel, or produced for a
 client, falls outside the CPML. XTTS-v2 is suitable for evaluation and non-commercial work only.
 Commercial use would need a different backend or a separate licence from the rights holder.
 
@@ -89,9 +89,9 @@ Acceptance on this machine: `~/Library/Application Support/tts/tts_models--multi
   `language="hi"` and reported from actual results; it is not assumed to work or to fail.
 * Per-language character limits in the Coqui tokenizer (warns above these):
   en 250, hi 150, de 253, fr 273, es 239, it 213, pt 203, pl 224, zh 82, ar 166, cs 186, ru 182,
-  nl 251, tr 226, ja 71, hu 224, ko 95. Legacy VoxFoundry chunk limits are stricter: en 200, hi 130.
+  nl 251, tr 226, ja 71, hu 224, ko 95. Legacy CloneMyVoice chunk limits are stricter: en 200, hi 130.
 * Validation in Coqui is an `assert` in `Xtts.synthesize`; it is skipped under `python -O`.
-  VoxFoundry should validate languages itself (audit item A10).
+  CloneMyVoice should validate languages itself (audit item A10).
 * Romanized Hinglish has no language code; it can only be sent as `en` (experimental).
 
 ## 6. Installed API (coqui-tts 0.28.0, verified in source)

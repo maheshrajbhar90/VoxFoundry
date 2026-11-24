@@ -286,7 +286,7 @@ def validate_reference(
 def legacy_clean_clip(wav: np.ndarray, sr: int, target_rms: float = LEGACY_TARGET_RMS) -> np.ndarray:
     """Exact port of ``clone_voice.clean_clip``: trim, 12 ms fades, RMS level-match, peak limit.
 
-    This **modifies** audio. VoxFoundry never applies it implicitly; the CLI applies
+    This **modifies** audio. CloneMyVoice never applies it implicitly; the CLI applies
     it only with ``--legacy-clip-cleanup``.
     """
     wav = np.asarray(wav, dtype=np.float32).reshape(-1).copy()

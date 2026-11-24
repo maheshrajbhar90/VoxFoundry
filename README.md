@@ -1,11 +1,11 @@
-# VoxFoundry
+# CloneMyVoice
 
-VoxFoundry clones **your own voice** from a short recording and uses it to read long voiceover
+CloneMyVoice clones **your own voice** from a short recording and uses it to read long voiceover
 scripts in English and Hindi. Everything runs **locally** on your machine with open-source
 text-to-speech models. No audio or text is sent to a cloud service.
 
 It was built to produce narration for short-form videos without recording every take by hand.
-You record yourself once, write a script, and VoxFoundry generates the full voiceover.
+You record yourself once, write a script, and CloneMyVoice generates the full voiceover.
 
 > **Use only voices you are authorised to clone.** That means your own voice, or someone who has
 > given explicit consent.
@@ -18,11 +18,11 @@ The project includes three local engines, all run from the same Python environme
 
 | Engine | How you run it | Best for | Output |
 |---|---|---|---|
-| **XTTS-v2** (main) | `voxfoundry generate ...` | Reliable English + Hindi voiceovers, tested CLI | `.wav` (path you choose) |
+| **XTTS-v2** (main) | `clonemyvoice generate ...` | Reliable English + Hindi voiceovers, tested CLI | `.wav` (path you choose) |
 | **VoxCPM2** | `python voice_clone_voxcpm2.py` | Expressive narration with a different style per section (`[HOOK]`, `[DATA]` ...) | `output/final_voxcpm2.mp3` |
 | **Chatterbox** | `python voice_clone_chatterbox.py` | English narration with adjustable emotion and intensity | `output/final.mp3` |
 
-`voxfoundry` is the production package: it has command-line options, input validation, clear
+`clonemyvoice` is the production package: it has command-line options, input validation, clear
 error codes and a test suite. The two engine scripts are standalone, and you configure them by
 editing the settings at the top of each file.
 
@@ -38,7 +38,7 @@ editing the settings at the top of each file.
                        └────────────────┘     └──────────────────────┘     └──────────────┘
 ```
 
-All three engines follow the same pipeline. For XTTS-v2 (`voxfoundry`):
+All three engines follow the same pipeline. For XTTS-v2 (`clonemyvoice`):
 
 1. **Reference check.** The recording is validated before the model loads: it must exist,
    decode, contain audible signal, and be at least 5 seconds long.
@@ -67,8 +67,8 @@ They also use `ffmpeg` to polish the result into an MP3.
 ## Project structure
 
 ```text
-VoxFoundry/
-├── src/voxfoundry/               # production package (XTTS-v2)
+CloneMyVoice/
+├── src/clonemyvoice/               # production package (XTTS-v2)
 │   ├── cli.py                    #   command-line interface, orchestration, exit codes
 │   ├── text_processor.py         #   script parsing, chunking, pause timing
 │   ├── backend_adapter.py        #   model loading and inference (XTTSAdapter, mock)
@@ -77,14 +77,14 @@ VoxFoundry/
 ├── voice_clone_voxcpm2.py        # VoxCPM2 engine script
 ├── voice_clone_chatterbox.py     # Chatterbox engine script
 ├── scripts/script.txt            # input script read by the two engine scripts
-├── examples/sample_script.txt    # sample input for voxfoundry
+├── examples/sample_script.txt    # sample input for clonemyvoice
 ├── tests/                        # unit, integration and opt-in real-model tests
 ├── docs/                         # architecture, model compatibility, validation reports
 ├── references/                   # your voice recordings (git-ignored, never uploaded)
 ├── output/                       # generated audio (git-ignored)
 ├── archive/                      # retired scripts and old dependency lists
 ├── .github/workflows/tests.yml   # CI: runs the test suite on every push
-├── pyproject.toml                # package metadata, `voxfoundry` command, pytest config
+├── pyproject.toml                # package metadata, `clonemyvoice` command, pytest config
 └── requirements.txt              # exact dependency versions
 ```
 
@@ -103,14 +103,14 @@ Design details: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/VoxFoundry.git
-cd VoxFoundry
+git clone https://github.com/<your-username>/CloneMyVoice.git
+cd CloneMyVoice
 
 python3.11 -m venv .venv-multiengine
 source .venv-multiengine/bin/activate
 
 pip install -r requirements.txt
-pip install -e . --no-deps        # installs the `voxfoundry` command
+pip install -e . --no-deps        # installs the `clonemyvoice` command
 ```
 
 Activate the environment (`source .venv-multiengine/bin/activate`) in every new terminal before
@@ -119,7 +119,7 @@ running anything below.
 The first XTTS-v2 run must download the model (~1.88 GB) once:
 
 ```bash
-voxfoundry generate --allow-download --text "Hello." \
+clonemyvoice generate --allow-download --text "Hello." \
     --reference-audio references/final_reference.wav --output output/first.wav
 ```
 
@@ -141,7 +141,7 @@ ffmpeg -i my_recording.m4a -ar 22050 -ac 1 references/final_reference.wav
 
 ```text
 [EN]
-Welcome to VoxFoundry. This short script shows the supported format.
+Welcome to CloneMyVoice. This short script shows the supported format.
 
 Each line is spoken as one sentence group. A blank line adds a paragraph pause.
 
@@ -156,17 +156,17 @@ Each line is spoken as one sentence group. A blank line adds a paragraph pause.
 
 See [examples/sample_script.txt](examples/sample_script.txt).
 
-### 3. Generate with XTTS-v2 (`voxfoundry`)
+### 3. Generate with XTTS-v2 (`clonemyvoice`)
 
 ```bash
 # From a script file
-voxfoundry generate \
+clonemyvoice generate \
     --script examples/sample_script.txt \
     --reference-audio references/final_reference.wav \
     --output output/voiceover.wav
 
 # Quick test from inline text
-voxfoundry generate --text "This is a quick test." \
+clonemyvoice generate --text "This is a quick test." \
     --reference-audio references/final_reference.wav --output output/test.wav
 ```
 
@@ -185,7 +185,7 @@ voxfoundry generate --text "This is a quick test." \
 | `--engine mock` | Test tone instead of speech, to check the pipeline without the model. |
 | `-v` | Verbose logging. |
 
-`python -m voxfoundry generate ...` works the same way.
+`python -m clonemyvoice generate ...` works the same way.
 
 Exit codes: `0` ok · `1` internal · `2` usage · `3` invalid input · `4` environment/model/device ·
 `5` generation failure · `6` not implemented.
@@ -211,7 +211,7 @@ python voice_clone_chatterbox.py    # → output/raw.wav + output/final.mp3
 **VoxCPM2 section markers.** Besides `[EN]` / `[HI]`, the VoxCPM2 script accepts `[HOOK]`,
 `[EXPLANATION]`, `[DATA]`, `[WARNING]` and `[CONCLUSION]`. Each section is spoken in its own style,
 for example a punchy hook or a calm, precise delivery for numbers. These markers work only in
-`voice_clone_voxcpm2.py`, not in `voxfoundry`.
+`voice_clone_voxcpm2.py`, not in `clonemyvoice`.
 
 Both scripts cache finished chunks in `output/cache_voxcpm2/` and `output/cache_chatterbox/`, so a
 re-run only regenerates lines you changed.
@@ -228,7 +228,7 @@ python -m pytest -m real_model -v    # real XTTS-v2 inference (~1 min); needs th
 
 Real-model tests are skipped unless selected, and they never download anything. CI
 (`.github/workflows/tests.yml`) runs the default suite on every push and pull request. The tests
-cover `voxfoundry`; the two engine scripts are not covered.
+cover `clonemyvoice`; the two engine scripts are not covered.
 
 ---
 
@@ -257,12 +257,12 @@ use VoxCPM2 or Chatterbox, and check each model's current licence terms yourself
 
 | Symptom | Fix |
 |---|---|
-| `command not found: voxfoundry` | Activate `.venv-multiengine`, then run `pip install -e . --no-deps`. |
+| `command not found: clonemyvoice` | Activate `.venv-multiengine`, then run `pip install -e . --no-deps`. |
 | `ModelLoadError ... downloads are disabled` | Run once with `--allow-download`. |
 | `DeviceUnavailableError: ... 'mps'` | Use `--device cpu`. |
 | `ModuleNotFoundError: six` | `pip install six==1.17.0` (coqui-tts doesn't declare it). |
 | `cannot import name 'TransformGetItemToIndex'` | torch is older than 2.6. Reinstall from `requirements.txt`. |
-| `Unsupported marker [HOOK]` in `voxfoundry` | Section markers only work in `voice_clone_voxcpm2.py`. Use `[EN]` / `[HI]`. |
+| `Unsupported marker [HOOK]` in `clonemyvoice` | Section markers only work in `voice_clone_voxcpm2.py`. Use `[EN]` / `[HI]`. |
 | Exit code 3, "Output exists" | Choose a new `--output` or pass `--overwrite`. |
 | `ffmpeg: command not found` | `brew install ffmpeg`. |
 | Voice doesn't sound like you | Use a cleaner 15–30 s reference with steady volume and no background noise. |

@@ -1,4 +1,4 @@
-"""Unit tests for :mod:`voxfoundry.text_processor`."""
+"""Unit tests for :mod:`clonemyvoice.text_processor`."""
 
 import pathlib
 import tempfile
@@ -6,8 +6,8 @@ import textwrap
 
 import pytest
 
-import voxfoundry.text_processor as tp
-from voxfoundry.text_processor import (
+import clonemyvoice.text_processor as tp
+from clonemyvoice.text_processor import (
     build_segments,
     make_chunks,
     parse_script,

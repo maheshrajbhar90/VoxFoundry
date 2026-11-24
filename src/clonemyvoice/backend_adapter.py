@@ -1,9 +1,9 @@
 """Backend adapter abstraction and the XTTS-v2 backend.
 
-All TTS engines implement :class:`BackendAdapter` so that VoxFoundry can use them
+All TTS engines implement :class:`BackendAdapter` so that CloneMyVoice can use them
 interchangeably. Adapters own *model I/O only*: they return the raw model waveform.
-Text segmentation lives in :mod:`voxfoundry.text_processor`; optional post-processing
-lives in :mod:`voxfoundry.audio`.
+Text segmentation lives in :mod:`clonemyvoice.text_processor`; optional post-processing
+lives in :mod:`clonemyvoice.audio`.
 
 Lifecycle of :class:`XTTSAdapter`::
 

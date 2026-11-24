@@ -1,5 +1,5 @@
 [EN]
-Welcome to VoxFoundry. This short script shows the supported format.
+Welcome to CloneMyVoice. This short script shows the supported format.
 
 Each line is spoken as one sentence group. A blank line adds a paragraph pause.
 

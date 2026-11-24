@@ -1,5 +1,5 @@
-# VoxFoundry environment (.venv-multiengine, Python 3.11).
-# Runs the voxfoundry XTTS-v2 CLI, voice_clone_chatterbox.py and voice_clone_voxcpm2.py.
+# CloneMyVoice environment (.venv-multiengine, Python 3.11).
+# Runs the clonemyvoice XTTS-v2 CLI, voice_clone_chatterbox.py and voice_clone_voxcpm2.py.
 # Exact versions installed and verified together on macOS / Apple Silicon (MPS).
 # Setup: python3.11 -m venv .venv-multiengine && pip install -r requirements.txt && pip install -e . --no-deps
 

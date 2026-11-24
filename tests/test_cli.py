@@ -12,10 +12,10 @@ import numpy as np
 import pytest
 import soundfile as sf
 
-import voxfoundry.backend_adapter as ba
-import voxfoundry.cli as cli
+import clonemyvoice.backend_adapter as ba
+import clonemyvoice.cli as cli
 from conftest import FakeTTS
-from voxfoundry.backend_adapter import MockXTTSAdapter
+from clonemyvoice.backend_adapter import MockXTTSAdapter
 
 pytestmark = pytest.mark.integration
 
@@ -96,14 +96,14 @@ def test_text_argument(tmp_path, fake_xtts, reference_wav):
 def test_backend_alias_is_honoured(tmp_path, monkeypatch, reference_wav, fake_factory, caplog):
     monkeypatch.setattr(cli, "XTTSAdapter", functools.partial(ba.XTTSAdapter, tts_factory=fake_factory()))
     out = tmp_path / "o.wav"
-    with caplog.at_level(logging.INFO, logger="voxfoundry"):
+    with caplog.at_level(logging.INFO, logger="clonemyvoice"):
         rc = run_generate(tmp_path, "Hello", reference_wav, out, "--backend", "mock")
     assert rc == 0 and not FakeTTS.instances
     assert "MOCK" in caplog.text
 
 
 def test_real_backend_is_labelled_real(tmp_path, fake_xtts, reference_wav, caplog):
-    with caplog.at_level(logging.INFO, logger="voxfoundry"):
+    with caplog.at_level(logging.INFO, logger="clonemyvoice"):
         run_generate(tmp_path, "Hello there, this is a test.", reference_wav, tmp_path / "o.wav")
     assert "REAL model inference" in caplog.text and "device=cpu" in caplog.text
     assert "RTF" in caplog.text

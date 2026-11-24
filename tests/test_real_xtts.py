@@ -1,7 +1,7 @@
 """REAL-MODEL tests: load the actual XTTS-v2 checkpoint and run inference.
 
 Run explicitly:  python -m pytest -m real_model -v
-Environment:     VOXFOUNDRY_TEST_DEVICE (default: mps), VOXFOUNDRY_TEST_REFERENCE
+Environment:     CLONEMYVOICE_TEST_DEVICE (default: mps), CLONEMYVOICE_TEST_REFERENCE
                  (default: references/my_voice.wav).
 These tests skip when the checkpoint is not already in the local Hugging Face cache,
 and the adapter forces offline mode, so they never download anything.
@@ -14,15 +14,15 @@ from pathlib import Path
 
 import pytest
 
-from voxfoundry.audio import analyze_audio
-from voxfoundry.backend_adapter import XTTSAdapter
-from voxfoundry.errors import UnsupportedLanguageError
+from clonemyvoice.audio import analyze_audio
+from clonemyvoice.backend_adapter import XTTSAdapter
+from clonemyvoice.errors import UnsupportedLanguageError
 
 pytestmark = pytest.mark.real_model
 
 REPO = Path(__file__).resolve().parents[1]
-DEVICE = os.environ.get("VOXFOUNDRY_TEST_DEVICE", "mps")
-REFERENCE = Path(os.environ.get("VOXFOUNDRY_TEST_REFERENCE", REPO / "references" / "my_voice.wav"))
+DEVICE = os.environ.get("CLONEMYVOICE_TEST_DEVICE", "mps")
+REFERENCE = Path(os.environ.get("CLONEMYVOICE_TEST_REFERENCE", REPO / "references" / "my_voice.wav"))
 
 
 def _checkpoint_cached() -> bool:

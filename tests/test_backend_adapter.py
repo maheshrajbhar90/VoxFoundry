@@ -1,4 +1,4 @@
-"""Unit tests for :class:`voxfoundry.backend_adapter.XTTSAdapter`.
+"""Unit tests for :class:`clonemyvoice.backend_adapter.XTTSAdapter`.
 
 A ``FakeTTS`` (tests/conftest.py) replaces ``TTS.api.TTS`` via the adapter's
 ``tts_factory`` parameter, so the real adapter code runs without a checkpoint.
@@ -11,9 +11,9 @@ import numpy as np
 import pytest
 import torch
 
-import voxfoundry.backend_adapter as ba
+import clonemyvoice.backend_adapter as ba
 from conftest import FakeTTS, speech_like
-from voxfoundry.errors import (
+from clonemyvoice.errors import (
     AdapterStateError,
     AudioValidationError,
     DeviceUnavailableError,
@@ -36,7 +36,7 @@ def adapter(fake_factory):
 def test_cache_is_opt_in_and_lazy(fake_factory, reference_wav, tmp_path):
     """Construction writes nothing; the output cache exists only when requested and used."""
     ba.XTTSAdapter(device="cpu", tts_factory=fake_factory())
-    assert not (tmp_path / ".voxfoundry_cache").exists()
+    assert not (tmp_path / ".clonemyvoice_cache").exists()
 
     cache = tmp_path / "cache"
     a = ba.XTTSAdapter(device="cpu", cache_dir=cache, tts_factory=fake_factory())

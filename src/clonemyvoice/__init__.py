@@ -1,4 +1,4 @@
-"""VoxFoundry: a modular framework for voice-cloning back-ends.
+"""CloneMyVoice: a modular framework for voice-cloning back-ends.
 
 Importing the package is lightweight: ``torch`` and ``coqui-tts`` are imported only
 when an :class:`XTTSAdapter` loads its model.
@@ -17,7 +17,7 @@ from .errors import (
     ReferenceAudioNotFoundError,
     TextValidationError,
     UnsupportedLanguageError,
-    VoxFoundryError,
+    CloneMyVoiceError,
 )
 from .text_processor import Segment, build_segments, make_chunks, parse_script, parse_script_text, pause_after, silence
 
@@ -40,7 +40,7 @@ __all__ = [
     "XTTSSettings",
     "MockXTTSAdapter",
     "main",
-    "VoxFoundryError",
+    "CloneMyVoiceError",
     "ModelDependencyError",
     "ModelLoadError",
     "DeviceUnavailableError",
@@ -55,9 +55,9 @@ __all__ = [
 
 
 def __getattr__(name: str):
-    # Lazy so that ``python -m voxfoundry.cli`` does not import the CLI module twice.
+    # Lazy so that ``python -m clonemyvoice.cli`` does not import the CLI module twice.
     if name == "main":
         from .cli import main
 
         return main
-    raise AttributeError(f"module 'voxfoundry' has no attribute {name!r}")
+    raise AttributeError(f"module 'clonemyvoice' has no attribute {name!r}")

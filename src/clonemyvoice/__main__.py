@@ -1,4 +1,4 @@
-"""``python -m voxfoundry`` entry point."""
+"""``python -m clonemyvoice`` entry point."""
 
 import sys
 

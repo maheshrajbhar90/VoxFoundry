@@ -1,10 +1,10 @@
-# VoxFoundry Architecture
+# CloneMyVoice Architecture
 
 ## Layers
 
 ```text
             ┌──────────────────────────────────────────────────────────┐
- CLI        │ src/voxfoundry/cli.py  argument validation, orchestration,  │
+ CLI        │ src/clonemyvoice/cli.py  argument validation, orchestration,  │
             │                      exit codes, logging, file output     │
             └───────┬───────────────────┬──────────────────────┬───────┘
                     │                   │                      │
@@ -78,21 +78,21 @@ No configuration framework is used; there are only these three places.
 
 | Environment | Python | Purpose |
 |---|---|---|
-| `.venv-multiengine` | 3.11 | The only environment: `voxfoundry` (XTTS-v2), tests, `voice_clone_chatterbox.py`, `voice_clone_voxcpm2.py`. Recreate from `requirements.txt` (+ `pip install -e . --no-deps`). |
+| `.venv-multiengine` | 3.11 | The only environment: `clonemyvoice` (XTTS-v2), tests, `voice_clone_chatterbox.py`, `voice_clone_voxcpm2.py`. Recreate from `requirements.txt` (+ `pip install -e . --no-deps`). |
 
 ## Usage
 
 ```bash
 source .venv-multiengine/bin/activate
 
-python -m voxfoundry generate \
+python -m clonemyvoice generate \
     --engine xtts --device mps \
     --reference-audio references/final_reference.wav \
     --language en \
     --text "This is a real speech generation test." \
     --output output/xtts_test.wav
 
-python -m voxfoundry generate --script examples/sample_script.txt \
+python -m clonemyvoice generate --script examples/sample_script.txt \
     --reference-audio references/final_reference.wav --output output/voiceover.wav --device cpu
 ```
 
@@ -108,7 +108,7 @@ Exit codes: 0 ok · 1 internal · 2 usage · 3 input · 4 environment/model/devi
 python -m pytest                    # unit + integration (fake model / mock), no checkpoint needed
 python -m pytest -m unit
 python -m pytest -m integration     # MOCKED: never real inference
-python -m pytest -m real_model -v   # actual XTTS-v2; VOXFOUNDRY_TEST_DEVICE=mps|cpu
+python -m pytest -m real_model -v   # actual XTTS-v2; CLONEMYVOICE_TEST_DEVICE=mps|cpu
 ```
 
 Real-model tests skip if the checkpoint is not already cached and never download.

@@ -1,6 +1,6 @@
-"""Exception hierarchy for VoxFoundry.
+"""Exception hierarchy for CloneMyVoice.
 
-Every error raised deliberately by VoxFoundry derives from :class:`VoxFoundryError`,
+Every error raised deliberately by CloneMyVoice derives from :class:`CloneMyVoiceError`,
 so callers can catch the whole family. Each class also inherits the closest
 built-in exception, so existing code that catches ``FileNotFoundError``,
 ``ValueError`` or ``RuntimeError`` keeps working.
@@ -9,7 +9,7 @@ built-in exception, so existing code that catches ``FileNotFoundError``,
 from __future__ import annotations
 
 __all__ = [
-    "VoxFoundryError",
+    "CloneMyVoiceError",
     "ModelDependencyError",
     "ModelLoadError",
     "DeviceUnavailableError",
@@ -23,15 +23,15 @@ __all__ = [
 ]
 
 
-class VoxFoundryError(Exception):
-    """Base class for all VoxFoundry errors."""
+class CloneMyVoiceError(Exception):
+    """Base class for all CloneMyVoice errors."""
 
 
-class ModelDependencyError(VoxFoundryError, ImportError):
+class ModelDependencyError(CloneMyVoiceError, ImportError):
     """A package required by a backend (e.g. ``coqui-tts``, ``torch``) is missing or broken."""
 
 
-class ModelLoadError(VoxFoundryError, RuntimeError):
+class ModelLoadError(CloneMyVoiceError, RuntimeError):
     """The model checkpoint could not be loaded or moved to the requested device."""
 
 
@@ -39,7 +39,7 @@ class DeviceUnavailableError(ModelLoadError):
     """The explicitly requested device (``mps``, ``cuda``) is not available. No fallback is attempted."""
 
 
-class ReferenceAudioError(VoxFoundryError, ValueError):
+class ReferenceAudioError(CloneMyVoiceError, ValueError):
     """The reference recording is unreadable, corrupt, silent, too short or otherwise unusable."""
 
 
@@ -47,21 +47,21 @@ class ReferenceAudioNotFoundError(ReferenceAudioError, FileNotFoundError):
     """The reference recording does not exist."""
 
 
-class UnsupportedLanguageError(VoxFoundryError, ValueError):
+class UnsupportedLanguageError(CloneMyVoiceError, ValueError):
     """The language code is not supported by the loaded model."""
 
 
-class TextValidationError(VoxFoundryError, ValueError):
+class TextValidationError(CloneMyVoiceError, ValueError):
     """The text to synthesise is empty or exceeds the backend's per-call limit."""
 
 
-class AdapterStateError(VoxFoundryError, RuntimeError):
+class AdapterStateError(CloneMyVoiceError, RuntimeError):
     """An operation was called in the wrong lifecycle state (e.g. ``generate`` before ``load``)."""
 
 
-class InferenceError(VoxFoundryError, RuntimeError):
+class InferenceError(CloneMyVoiceError, RuntimeError):
     """The model raised an error, or produced no usable audio, during synthesis."""
 
 
-class AudioValidationError(VoxFoundryError, ValueError):
+class AudioValidationError(CloneMyVoiceError, ValueError):
     """Generated audio failed validation (empty, non-finite, silent, wrong shape or sample rate)."""

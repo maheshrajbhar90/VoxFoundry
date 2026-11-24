@@ -57,7 +57,7 @@
 # Generated audio / caches
 /output/*
 !/output/.gitkeep
-.voxfoundry_cache/
+.clonemyvoice_cache/
 .pytest_cache/
 
 # Logs and crash dumps (may contain local paths)
