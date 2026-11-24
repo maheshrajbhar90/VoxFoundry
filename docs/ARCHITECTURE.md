@@ -4,7 +4,7 @@
 
 ```text
             ┌──────────────────────────────────────────────────────────┐
- CLI        │ voxfoundry/cli.py   argument validation, orchestration,  │
+ CLI        │ src/voxfoundry/cli.py  argument validation, orchestration,  │
             │                      exit codes, logging, file output     │
             └───────┬───────────────────┬──────────────────────┬───────┘
                     │                   │                      │
@@ -69,7 +69,7 @@ per-clip cleanup.
 
 ## Configuration
 
-* XTTS inference/conditioning parameters: `XTTSSettings` (defaults = `clone_voice.py`).
+* XTTS inference/conditioning parameters: `XTTSSettings` (defaults = legacy `archive/legacy_scripts/clone_voice.py`).
 * Text pacing and chunk limits: constants at the top of `text_processor.py` (= `clone_voice.py`).
 * Device, cache, downloads: `XTTSAdapter(...)` arguments / CLI flags.
 No configuration framework is used; there are only these three places.
@@ -78,8 +78,8 @@ No configuration framework is used; there are only these three places.
 
 | Environment | Python | Purpose |
 |---|---|---|
-| `.venv-xtts` | 3.12 | XTTS-v2 backend, tests. Recreate from `requirements-xtts-locked.txt`. |
-| `.venv-multiengine` | 3.11 | Legacy scripts for XTTS, Chatterbox and VoxCPM2. |
+| `.venv-xtts` | 3.12 | XTTS-v2 backend, tests. Recreate from `requirements.txt` (+ `pip install -e .`). |
+| `.venv-multiengine` | 3.11 | Archived legacy scripts (`archive/legacy_scripts/`) for XTTS, Chatterbox and VoxCPM2. |
 
 ## Usage
 
@@ -88,13 +88,13 @@ source .venv-xtts/bin/activate
 
 python -m voxfoundry generate \
     --engine xtts --device mps \
-    --reference-audio references/my_voice.wav \
+    --reference-audio references/final_reference.wav \
     --language en \
     --text "This is a real speech generation test." \
     --output output/xtts_test.wav
 
-python -m voxfoundry generate --script scripts/my_script.txt \
-    --reference-audio references/my_voice.wav --output output/voiceover.wav --device cpu
+python -m voxfoundry generate --script examples/sample_script.txt \
+    --reference-audio references/final_reference.wav --output output/voiceover.wav --device cpu
 ```
 
 Script format: a line containing only `[EN]` or `[HI]` switches language; a blank line adds a
@@ -118,7 +118,7 @@ Real-model tests skip if the checkpoint is not already cached and never download
 
 | Symptom | Cause / fix |
 |---|---|
-| `ImportError: cannot import name 'TransformGetItemToIndex'` | torch < 2.6 with transformers 5.x. Use the locked versions. |
+| `ImportError: cannot import name 'TransformGetItemToIndex'` | torch < 2.6 with transformers 5.x. Use the versions in `requirements.txt`. |
 | `ModuleNotFoundError: six` | coqui-tts 0.28.0 does not declare `six`; `pip install six==1.17.0`. |
 | `DeviceUnavailableError: … 'mps'` | MPS not available; rerun with `--device cpu` (explicit). |
 | `ModelLoadError … downloads are disabled` | Checkpoint not cached; rerun once with `--allow-download` (≈1.88 GB, CPML licence). |

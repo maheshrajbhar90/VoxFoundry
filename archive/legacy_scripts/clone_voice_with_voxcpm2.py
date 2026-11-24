@@ -27,10 +27,10 @@ from voxcpm import VoxCPM
 # 1. PATHS — intentionally unchanged from the Chatterbox file
 # ============================================================
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parents[2]  # repo root (script lives in archive/legacy_scripts/)
 
 REFERENCE = BASE_DIR / "references" / "ref3_10s.wav"
-SCRIPT = BASE_DIR / "scripts" / "script.txt"
+SCRIPT = BASE_DIR / "archive" / "scripts" / "script_voxcpm2_markers.txt"
 
 OUTPUT_DIR = BASE_DIR / "output"
 CACHE_DIR = OUTPUT_DIR / "cache_voxcpm2"

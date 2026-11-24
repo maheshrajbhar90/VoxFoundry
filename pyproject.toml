@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voxfoundry"
+version = "0.1.0"
+description = "Local voice cloning and long-form voiceover generation with XTTS-v2"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "coqui-tts==0.28.0",
+    "torch==2.6.0",
+    "torchaudio==2.6.0",
+    "transformers==5.2.0",
+    "six==1.17.0",
+    "soundfile>=0.12",
+    "numpy>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+voxfoundry = "voxfoundry.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+markers = [
+    "unit: pure unit tests (no model, fakes where needed)",
+    "integration: multi-component tests with a FAKE model or the MOCK backend (no real inference)",
+    "real_model: uses the actual XTTS-v2 checkpoint; select explicitly with -m real_model",
+]
+# Real-model tests never run by default. They also never download: they skip if the
+# checkpoint is not already cached, and the adapter forces Hugging Face offline mode.
+addopts = '-m "not real_model"'

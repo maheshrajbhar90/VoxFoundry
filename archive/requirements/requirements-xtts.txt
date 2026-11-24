@@ -1,0 +1,10 @@
+# Direct dependencies of the VoxFoundry XTTS-v2 backend (.venv-xtts, Python 3.12).
+# Exact verified versions are in requirements-xtts-locked.txt.
+coqui-tts==0.28.0
+torch==2.6.0          # transformers 5.x disables PyTorch < 2.6
+torchaudio==2.6.0
+transformers==5.2.0
+six==1.17.0           # imported by coqui-tts 0.28.0 but not declared as a dependency
+soundfile
+numpy>=2.0            # librosa 1.0.1 / scipy 1.18.1 require numpy >= 2
+pytest                # test runner

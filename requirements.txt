@@ -1,0 +1,10 @@
+# VoxFoundry runtime + test dependencies (Python 3.12).
+# Versions verified together in .venv-xtts on macOS / Apple Silicon (MPS).
+coqui-tts==0.28.0
+torch==2.6.0          # transformers 5.x disables PyTorch < 2.6
+torchaudio==2.6.0
+transformers==5.2.0
+six==1.17.0           # imported by coqui-tts 0.28.0 but not declared as a dependency
+soundfile==0.14.0
+numpy==2.5.5          # librosa 1.0.1 / scipy 1.18.1 require numpy >= 2
+pytest==9.2.0         # test runner

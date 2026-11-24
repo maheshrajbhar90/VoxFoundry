@@ -1,0 +1,10 @@
+[EN]
+Welcome to VoxFoundry. This short script shows the supported format.
+
+Each line is spoken as one sentence group. A blank line adds a paragraph pause.
+
+[HI]
+नमस्ते, यह हिंदी में एक छोटा सा उदाहरण है।
+
+[EN]
+Thanks for listening.

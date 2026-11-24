@@ -1,0 +1,26 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unit-and-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install system audio library
+        run: sudo apt-get update && sudo apt-get install -y libsndfile1
+      - name: Install CPU-only PyTorch
+        run: pip install torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -e . --no-deps
+      # Real-model tests are excluded by default (pyproject addopts) and never download.
+      - name: Run tests
+        run: python -m pytest -q
