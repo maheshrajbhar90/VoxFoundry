@@ -23,7 +23,7 @@ BASE_DIR   = Path(__file__).resolve().parents[2]  # repo root (script lives in a
 MODEL      = "tts_models/multilingual/multi-dataset/xtts_v2"
 
 REFERENCE  = BASE_DIR / "references" / "my_voice.wav"
-SCRIPT     = BASE_DIR / "archive" / "scripts" / "script_voxcpm2_markers.txt"
+SCRIPT     = BASE_DIR / "scripts" / "script.txt"
 
 OUTPUT_DIR = BASE_DIR / "output"
 CACHE_DIR  = OUTPUT_DIR / "cache"

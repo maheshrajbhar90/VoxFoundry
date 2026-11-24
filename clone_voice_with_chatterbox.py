@@ -14,10 +14,10 @@ import torch
 # ============================================================
 # 1. PATHS
 # ============================================================
-BASE_DIR   = Path(__file__).resolve().parents[2]  # repo root (script lives in archive/legacy_scripts/)
+BASE_DIR   = Path(__file__).resolve().parent
 
 REFERENCE  = BASE_DIR / "references" / "ref3_10s.wav"
-SCRIPT     = BASE_DIR / "archive" / "scripts" / "script_voxcpm2_markers.txt"
+SCRIPT     = BASE_DIR / "scripts" / "script.txt"
 OUTPUT_DIR = BASE_DIR / "output"
 CACHE_DIR  = OUTPUT_DIR / "cache_chatterbox"
 RAW_OUT    = OUTPUT_DIR / "raw.wav"

@@ -54,6 +54,9 @@ VoxFoundry/
 │   ├── backend_adapter.py   #   BackendAdapter interface, XTTSAdapter, MockXTTSAdapter
 │   ├── audio.py             #   audio validation, measurements, reference checks
 │   └── errors.py            #   typed exceptions
+├── clone_voice_with_chatterbox.py   # alternative engine: Chatterbox
+├── clone_voice_with_voxcpm2.py      # alternative engine: VoxCPM2 (section styles)
+├── scripts/script.txt       # input script for the two engine scripts above
 ├── tests/                   # unit, integration (fake model) and opt-in real-model tests
 ├── docs/                    # architecture, model compatibility, validation reports
 ├── examples/                # sample script showing the input format
@@ -157,6 +160,22 @@ voxfoundry generate --text "This is a quick test." \
 
 Exit codes: `0` ok · `1` internal · `2` usage · `3` invalid input · `4` environment/model/device ·
 `5` generation failure · `6` not implemented.
+
+### Alternative engines: Chatterbox and VoxCPM2
+
+Two standalone scripts in the repository root clone your voice with other local models. They run
+in the separate Python 3.11 `.venv-multiengine` environment (package list:
+`archive/requirements/requirements-original.txt`), and settings are edited at the top of each file.
+
+```bash
+source .venv-multiengine/bin/activate
+python clone_voice_with_voxcpm2.py      # → output/final_voxcpm2.mp3
+python clone_voice_with_chatterbox.py   # → output/final.mp3
+```
+
+Both read `scripts/script.txt` and use `references/ref3_10s.wav` as the voice. The VoxCPM2 script
+also understands section markers such as `[HOOK]` and `[EXPLANATION]` and gives each section its
+own speaking style.
 
 ---
 
