@@ -54,8 +54,8 @@ VoxFoundry/
 │   ├── backend_adapter.py   #   BackendAdapter interface, XTTSAdapter, MockXTTSAdapter
 │   ├── audio.py             #   audio validation, measurements, reference checks
 │   └── errors.py            #   typed exceptions
-├── clone_voice_with_chatterbox.py   # alternative engine: Chatterbox
-├── clone_voice_with_voxcpm2.py      # alternative engine: VoxCPM2 (section styles)
+├── voice_clone_chatterbox.py        # alternative engine: Chatterbox
+├── voice_clone_voxcpm2.py           # alternative engine: VoxCPM2 (section styles)
 ├── scripts/script.txt       # input script for the two engine scripts above
 ├── tests/                   # unit, integration (fake model) and opt-in real-model tests
 ├── docs/                    # architecture, model compatibility, validation reports
@@ -169,8 +169,8 @@ in the separate Python 3.11 `.venv-multiengine` environment (package list:
 
 ```bash
 source .venv-multiengine/bin/activate
-python clone_voice_with_voxcpm2.py      # → output/final_voxcpm2.mp3
-python clone_voice_with_chatterbox.py   # → output/final.mp3
+python voice_clone_voxcpm2.py           # → output/final_voxcpm2.mp3
+python voice_clone_chatterbox.py        # → output/final.mp3
 ```
 
 Both read `scripts/script.txt` and use `references/ref3_10s.wav` as the voice. The VoxCPM2 script
