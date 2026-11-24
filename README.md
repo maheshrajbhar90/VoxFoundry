@@ -73,7 +73,7 @@ Design details are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Requirements
 
-- Python **3.12**
+- Python **3.11**
 - macOS with Apple Silicon (MPS) is the tested setup. CPU works everywhere, and CUDA is supported.
 - About 2 GB of disk space for the XTTS-v2 checkpoint
 - `ffmpeg` (optional), only for converting recordings to WAV
@@ -84,11 +84,11 @@ Design details are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 git clone https://github.com/<your-username>/VoxFoundry.git
 cd VoxFoundry
 
-python3.12 -m venv .venv-xtts
-source .venv-xtts/bin/activate
+python3.11 -m venv .venv-multiengine
+source .venv-multiengine/bin/activate
 
 pip install -r requirements.txt
-pip install -e .            # installs the `voxfoundry` command
+pip install -e . --no-deps  # installs the `voxfoundry` command
 ```
 
 The first real run must download the model (~1.88 GB) once:
@@ -163,9 +163,9 @@ Exit codes: `0` ok · `1` internal · `2` usage · `3` invalid input · `4` envi
 
 ### Alternative engines: Chatterbox and VoxCPM2
 
-Two standalone scripts in the repository root clone your voice with other local models. They run
-in the separate Python 3.11 `.venv-multiengine` environment (package list:
-`archive/requirements/requirements-original.txt`), and settings are edited at the top of each file.
+Two standalone scripts in the repository root clone your voice with other local models. They use
+the same `.venv-multiengine` environment as `voxfoundry`, and settings are edited at the top of
+each file.
 
 ```bash
 source .venv-multiengine/bin/activate

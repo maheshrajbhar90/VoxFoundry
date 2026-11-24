@@ -78,13 +78,12 @@ No configuration framework is used; there are only these three places.
 
 | Environment | Python | Purpose |
 |---|---|---|
-| `.venv-xtts` | 3.12 | XTTS-v2 backend, tests. Recreate from `requirements.txt` (+ `pip install -e .`). |
-| `.venv-multiengine` | 3.11 | Archived legacy scripts (`archive/legacy_scripts/`) for XTTS, Chatterbox and VoxCPM2. |
+| `.venv-multiengine` | 3.11 | The only environment: `voxfoundry` (XTTS-v2), tests, `voice_clone_chatterbox.py`, `voice_clone_voxcpm2.py`. Recreate from `requirements.txt` (+ `pip install -e . --no-deps`). |
 
 ## Usage
 
 ```bash
-source .venv-xtts/bin/activate
+source .venv-multiengine/bin/activate
 
 python -m voxfoundry generate \
     --engine xtts --device mps \

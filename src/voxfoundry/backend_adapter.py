@@ -174,7 +174,7 @@ def _default_tts_factory(model_name: str, progress_bar: bool) -> Any:
         from TTS.api import TTS
     except ImportError as exc:  # pragma: no cover - depends on environment
         raise ModelDependencyError(
-            f"coqui-tts is not importable ({exc}). Activate .venv-xtts and see docs/XTTS_MODEL_COMPATIBILITY.md."
+            f"coqui-tts is not importable ({exc}). Activate .venv-multiengine and see docs/XTTS_MODEL_COMPATIBILITY.md."
         ) from exc
     return TTS(model_name, progress_bar=progress_bar)
 
