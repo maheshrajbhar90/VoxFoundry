@@ -5,7 +5,7 @@ Uses the same project files as the original Chatterbox script:
   scripts/script.txt
 
 Run from the activated .venv-multiengine environment:
-  python generate_voxcpm2.py
+  python voice_clone_voxcpm2.py
 """
 
 import hashlib
